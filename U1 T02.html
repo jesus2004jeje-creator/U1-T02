@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizador de JSON</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input[type="file"] {
+            margin-bottom: 20px;
+        }
+
+        #output {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 15px;
+            white-space: pre-wrap;s
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Visualizador de archivo JSON</h1>
+    <input type="file" id="fileInput" accept=".json">
+    <div id="output">Selecciona un archivo JSON para ver su contenido.</div>
+
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const json = JSON.parse(e.target.result);
+                    const formatted = JSON.stringify(json, null, 4);
+                    document.getElementById('output').textContent = formatted;
+                } catch (error) {
+                    document.getElementById('output').textContent = 'Error al leer el archivo';
+                }
+            };
+            reader.readAsText(file);
+        });
+    </script>
+
+</body>
+</html>
